@@ -433,8 +433,8 @@ static int eeprom_parse_memory_map(struct msm_eeprom_ctrl_t *e_ctrl,
 		CDBG("memory_data[%d] = 0x%X\n", i, memptr[i]);
 
 #if 0
-//tongzhiqiang add for s5kgm1 dualcamera crc data write to eeprom start
-	if ((memptr[0x000C] == 0x002B) && (memptr[0x000D] == 0x003A)) {
+	if((memptr[0x000C] == 0x002B) && (memptr[0x000D] == 0x003A))
+	{
 		fp = filp_open("/data/vendor/camera/rewrite_arcsoft_calibration_data.bin", O_RDONLY, 0777);
 		if (IS_ERR(fp)) {
 			pr_err("Brave open file fail,Not need rewrite!\n");
@@ -532,7 +532,7 @@ static int eeprom_parse_memory_map(struct msm_eeprom_ctrl_t *e_ctrl,
 			pr_err("tong ofilm", __func__);
 		}
 	}
-//tongzhiqiang add for s5kgm1 dualcamera crc data write to eeprom start
+
 #endif
 	return rc;
 
