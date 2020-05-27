@@ -154,14 +154,9 @@ static ssize_t ipa3_write_ep_holb(struct file *file,
 	u32 en;
 	u32 tmr_val;
 	u32 ep_idx;
-	unsigned long missing;
 	char *sptr, *token;
 
 	if (sizeof(dbg_buff) < count + 1)
-		return -EFAULT;
-
-	missing = copy_from_user(dbg_buff, buf, min(sizeof(dbg_buff), count));
-	if (missing)
 		return -EFAULT;
 
 	dbg_buff[count] = '\0';
@@ -197,14 +192,9 @@ static ssize_t ipa3_write_ep_holb(struct file *file,
 static ssize_t ipa3_write_ep_reg(struct file *file, const char __user *buf,
 		size_t count, loff_t *ppos)
 {
-	unsigned long missing;
 	s8 option = 0;
 
 	if (sizeof(dbg_buff) < count + 1)
-		return -EFAULT;
-
-	missing = copy_from_user(dbg_buff, buf, min(sizeof(dbg_buff), count));
-	if (missing)
 		return -EFAULT;
 
 	dbg_buff[count] = '\0';
@@ -335,15 +325,10 @@ static ssize_t ipa3_read_ep_reg(struct file *file, char __user *ubuf,
 static ssize_t ipa3_write_keep_awake(struct file *file, const char __user *buf,
 	size_t count, loff_t *ppos)
 {
-	unsigned long missing;
 	s8 option = 0;
 	uint32_t bw_mbps = 0;
 
 	if (sizeof(dbg_buff) < count + 1)
-		return -EFAULT;
-
-	missing = copy_from_user(dbg_buff, buf, min(sizeof(dbg_buff), count));
-	if (missing)
 		return -EFAULT;
 
 	dbg_buff[count] = '\0';
@@ -1564,7 +1549,6 @@ static ssize_t ipa3_read_wdi(struct file *file, char __user *ubuf,
 static ssize_t ipa3_write_dbg_cnt(struct file *file, const char __user *buf,
 		size_t count, loff_t *ppos)
 {
-	unsigned long missing;
 	u32 option = 0;
 	struct ipahal_reg_debug_cnt_ctrl dbg_cnt_ctrl;
 
@@ -1574,10 +1558,6 @@ static ssize_t ipa3_write_dbg_cnt(struct file *file, const char __user *buf,
 	}
 
 	if (sizeof(dbg_buff) < count + 1)
-		return -EFAULT;
-
-	missing = copy_from_user(dbg_buff, buf, min(sizeof(dbg_buff), count));
-	if (missing)
 		return -EFAULT;
 
 	dbg_buff[count] = '\0';
@@ -2572,14 +2552,9 @@ static ssize_t ipa3_print_active_clients_log(struct file *file,
 static ssize_t ipa3_clear_active_clients_log(struct file *file,
 		const char __user *ubuf, size_t count, loff_t *ppos)
 {
-	unsigned long missing;
 		s8 option = 0;
 
 	if (sizeof(dbg_buff) < count + 1)
-		return -EFAULT;
-
-	missing = copy_from_user(dbg_buff, ubuf, min(sizeof(dbg_buff), count));
-	if (missing)
 		return -EFAULT;
 
 	dbg_buff[count] = '\0';
@@ -2594,14 +2569,9 @@ static ssize_t ipa3_clear_active_clients_log(struct file *file,
 static ssize_t ipa3_enable_ipc_low(struct file *file,
 	const char __user *ubuf, size_t count, loff_t *ppos)
 {
-	unsigned long missing;
 	s8 option = 0;
 
 	if (sizeof(dbg_buff) < count + 1)
-		return -EFAULT;
-
-	missing = copy_from_user(dbg_buff, ubuf, min(sizeof(dbg_buff), count));
-	if (missing)
 		return -EFAULT;
 
 	dbg_buff[count] = '\0';

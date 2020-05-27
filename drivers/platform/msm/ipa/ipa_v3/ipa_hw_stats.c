@@ -1454,18 +1454,11 @@ static char dbg_buff[IPA_MAX_MSG_LEN];
 static ssize_t ipa_debugfs_reset_quota_stats(struct file *file,
 	const char __user *ubuf, size_t count, loff_t *ppos)
 {
-	unsigned long missing;
 	s8 client = 0;
 	int ret;
 
 	mutex_lock(&ipa3_ctx->lock);
 	if (sizeof(dbg_buff) < count + 1) {
-		ret = -EFAULT;
-		goto bail;
-	}
-
-	missing = copy_from_user(dbg_buff, ubuf, min(sizeof(dbg_buff), count));
-	if (missing) {
 		ret = -EFAULT;
 		goto bail;
 	}
@@ -1553,18 +1546,11 @@ static ssize_t ipa_debugfs_print_quota_stats(struct file *file,
 static ssize_t ipa_debugfs_reset_tethering_stats(struct file *file,
 	const char __user *ubuf, size_t count, loff_t *ppos)
 {
-	unsigned long missing;
 	s8 client = 0;
 	int ret;
 
 	mutex_lock(&ipa3_ctx->lock);
 	if (sizeof(dbg_buff) < count + 1) {
-		ret = -EFAULT;
-		goto bail;
-	}
-
-	missing = copy_from_user(dbg_buff, ubuf, min(sizeof(dbg_buff), count));
-	if (missing) {
 		ret = -EFAULT;
 		goto bail;
 	}
@@ -1671,8 +1657,8 @@ static ssize_t ipa_debugfs_control_flt_rt_stats(struct file *file,
 	const char __user *ubuf, size_t count, loff_t *ppos)
 {
 	struct ipa_ioc_flt_rt_query *query;
-	unsigned long missing;
 	int pyld_size = 0;
+	u16 rule_id = 0;
 	int ret;
 
 	query = kzalloc(sizeof(struct ipa_ioc_flt_rt_query),
@@ -1693,12 +1679,6 @@ static ssize_t ipa_debugfs_control_flt_rt_stats(struct file *file,
 
 	mutex_lock(&ipa3_ctx->lock);
 	if (sizeof(dbg_buff) < count + 1) {
-		ret = -EFAULT;
-		goto bail;
-	}
-
-	missing = copy_from_user(dbg_buff, ubuf, min(sizeof(dbg_buff), count));
-	if (missing) {
 		ret = -EFAULT;
 		goto bail;
 	}
@@ -1788,18 +1768,11 @@ static ssize_t ipa_debugfs_print_flt_rt_stats(struct file *file,
 static ssize_t ipa_debugfs_reset_drop_stats(struct file *file,
 	const char __user *ubuf, size_t count, loff_t *ppos)
 {
-	unsigned long missing;
 	s8 client = 0;
 	int ret;
 
 	mutex_lock(&ipa3_ctx->lock);
 	if (sizeof(dbg_buff) < count + 1) {
-		ret = -EFAULT;
-		goto bail;
-	}
-
-	missing = copy_from_user(dbg_buff, ubuf, min(sizeof(dbg_buff), count));
-	if (missing) {
 		ret = -EFAULT;
 		goto bail;
 	}

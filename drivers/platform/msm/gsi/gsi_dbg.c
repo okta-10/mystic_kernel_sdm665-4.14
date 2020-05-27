@@ -39,7 +39,6 @@ static ssize_t gsi_dump_evt(struct file *file,
 {
 	u32 arg1;
 	u32 arg2;
-	unsigned long missing;
 	char *sptr, *token;
 	uint32_t val;
 	struct gsi_evt_ctx *ctx;
@@ -47,10 +46,6 @@ static ssize_t gsi_dump_evt(struct file *file,
 
 	if (sizeof(dbg_buff) < count + 1)
 		return -EINVAL;
-
-	missing = copy_from_user(dbg_buff, buf, min(sizeof(dbg_buff), count));
-	if (missing)
-		return -EFAULT;
 
 	dbg_buff[count] = '\0';
 
@@ -152,7 +147,6 @@ static ssize_t gsi_dump_ch(struct file *file,
 {
 	u32 arg1;
 	u32 arg2;
-	unsigned long missing;
 	char *sptr, *token;
 	uint32_t val;
 	struct gsi_chan_ctx *ctx;
@@ -160,10 +154,6 @@ static ssize_t gsi_dump_ch(struct file *file,
 
 	if (sizeof(dbg_buff) < count + 1)
 		return -EINVAL;
-
-	missing = copy_from_user(dbg_buff, buf, min(sizeof(dbg_buff), count));
-	if (missing)
-		return -EFAULT;
 
 	dbg_buff[count] = '\0';
 
@@ -302,9 +292,6 @@ static ssize_t gsi_dump_stats(struct file *file,
 	if (sizeof(dbg_buff) < count + 1)
 		goto error;
 
-	if (copy_from_user(dbg_buff, buf, min(sizeof(dbg_buff), count)))
-		goto error;
-
 	dbg_buff[count] = '\0';
 
 	if (kstrtos32(dbg_buff, 0, &ch_id))
@@ -361,9 +348,6 @@ static ssize_t gsi_enable_dp_stats(struct file *file,
 	if (sizeof(dbg_buff) < count + 1)
 		goto error;
 
-	if (copy_from_user(dbg_buff, buf, min(sizeof(dbg_buff), count)))
-		goto error;
-
 	dbg_buff[count] = '\0';
 
 	if (dbg_buff[0] != '+' && dbg_buff[0] != '-')
@@ -414,15 +398,10 @@ static ssize_t gsi_set_max_elem_dp_stats(struct file *file,
 {
 	u32 ch_id;
 	u32 max_elem;
-	unsigned long missing;
 	char *sptr, *token;
 
 
 	if (sizeof(dbg_buff) < count + 1)
-		goto error;
-
-	missing = copy_from_user(dbg_buff, buf, min(sizeof(dbg_buff), count));
-	if (missing)
 		goto error;
 
 	dbg_buff[count] = '\0';
@@ -543,9 +522,6 @@ static ssize_t gsi_rst_stats(struct file *file,
 	if (sizeof(dbg_buff) < count + 1)
 		goto error;
 
-	if (copy_from_user(dbg_buff, buf, min(sizeof(dbg_buff), count)))
-		goto error;
-
 	dbg_buff[count] = '\0';
 
 	if (kstrtos32(dbg_buff, 0, &ch_id))
@@ -580,9 +556,6 @@ static ssize_t gsi_print_dp_stats(struct file *file,
 	int ret;
 
 	if (sizeof(dbg_buff) < count + 1)
-		goto error;
-
-	if (copy_from_user(dbg_buff, buf, min(sizeof(dbg_buff), count)))
 		goto error;
 
 	dbg_buff[count] = '\0';
@@ -633,14 +606,9 @@ error:
 static ssize_t gsi_enable_ipc_low(struct file *file,
 	const char __user *ubuf, size_t count, loff_t *ppos)
 {
-	unsigned long missing;
 	s8 option = 0;
 
 	if (sizeof(dbg_buff) < count + 1)
-		return -EFAULT;
-
-	missing = copy_from_user(dbg_buff, ubuf, min(sizeof(dbg_buff), count));
-	if (missing)
 		return -EFAULT;
 
 	dbg_buff[count] = '\0';
