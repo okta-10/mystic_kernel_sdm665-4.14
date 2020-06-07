@@ -1193,9 +1193,14 @@ static ssize_t ipa3_dma_debugfs_reset_statistics(struct file *file,
 					size_t count,
 					loff_t *ppos)
 {
+	unsigned long missing;
 	s8 in_num = 0;
 
 	if (sizeof(dbg_buff) < count + 1)
+		return -EFAULT;
+
+	missing = copy_from_user(dbg_buff, ubuf, min(sizeof(dbg_buff), count));
+	if (missing)
 		return -EFAULT;
 
 	dbg_buff[count] = '\0';

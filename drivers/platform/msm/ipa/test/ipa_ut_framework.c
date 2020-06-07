@@ -866,6 +866,11 @@ static ssize_t ipa_ut_dbgfs_enable_write(struct file *file,
 		return -E2BIG;
 	}
 
+	if (copy_from_user(lcl_buf, buf, min(sizeof(lcl_buf), count))) {
+		IPA_UT_ERR("fail to copy buf from user space\n");
+		return -EFAULT;
+	}
+
 	lcl_buf[count] = '\0';
 	if (kstrtos8(lcl_buf, 0, &option)) {
 		IPA_UT_ERR("fail convert str to s8\n");
