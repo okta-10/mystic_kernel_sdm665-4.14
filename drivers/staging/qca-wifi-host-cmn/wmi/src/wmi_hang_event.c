@@ -55,23 +55,7 @@ static void wmi_log_history(struct notifier_block *block, void *data,
 	if (wmi_hang_data->offset >= QDF_WLAN_MAX_HOST_OFFSET)
 		return;
 
-	if (wmi_history)
-		wmi_log = &wmi_handle->log_info.wmi_event_log_buf_info;
-	else
-		wmi_log = &wmi_handle->log_info.wmi_command_log_buf_info;
-
 	total_len = sizeof(struct wmi_hang_data_fixed_param);
-
-	if (wmi_log->length <= wmi_ring_size)
-		nread = wmi_log->length;
-	else
-		nread = wmi_ring_size;
-
-	if (*wmi_log->p_buf_tail_idx == 0)
-		/* tail can be 0 after wrap-around */
-		pos = wmi_ring_size - 1;
-	else
-		pos = *wmi_log->p_buf_tail_idx - 1;
 
 	while (nread--) {
 		switch (wmi_history) {
@@ -82,11 +66,7 @@ static void wmi_log_history(struct notifier_block *block, void *data,
 			QDF_HANG_EVT_SET_HDR(&cmd->tlv_header,
 					     HANG_EVT_TAG_WMI_EVT_HIST,
 		  QDF_HANG_GET_STRUCT_TLVLEN(struct wmi_hang_data_fixed_param));
-		     wmi_evt = &(((struct wmi_event_debug *)wmi_log->buf)[pos]);
-			cmd->event = wmi_evt->event;
-			qdf_log_timestamp_to_secs(wmi_evt->time, &secs, &usecs);
 			cmd->time = secs;
-			cmd->data = wmi_evt->data[0];
 			break;
 		case WMI_CMD_HIST:
 			wmi_buf_ptr = (wmi_hang_data->hang_data +
@@ -95,11 +75,7 @@ static void wmi_log_history(struct notifier_block *block, void *data,
 			QDF_HANG_EVT_SET_HDR(&cmd->tlv_header,
 					     HANG_EVT_TAG_WMI_CMD_HIST,
 		 QDF_HANG_GET_STRUCT_TLVLEN(struct wmi_hang_data_fixed_param));
-		   wmi_cmd = &(((struct wmi_command_debug *)wmi_log->buf)[pos]);
-			cmd->event = wmi_cmd->command;
-			qdf_log_timestamp_to_secs(wmi_cmd->time, &secs, &usecs);
 			cmd->time = secs;
-			cmd->data = wmi_cmd->data[0];
 			break;
 		}
 		if (pos == 0)
