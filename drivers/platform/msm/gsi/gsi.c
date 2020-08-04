@@ -1030,7 +1030,6 @@ int gsi_is_mcs_enabled(void)
 
 	return (mcs_enable & GSI_GSI_MCS_CFG_MCS_ENABLE_BMSK);
 }
-EXPORT_SYMBOL(gsi_is_mcs_enabled);
 
 
 int gsi_register_device(struct gsi_per_props *props, unsigned long *dev_hdl)
@@ -2832,7 +2831,6 @@ int gsi_pending_irq_type(void)
 	return gsi_readl(gsi_ctx->base +
 		GSI_EE_n_CNTXT_TYPE_IRQ_OFFS(ee));
 }
-EXPORT_SYMBOL(gsi_pending_irq_type);
 
 int gsi_start_channel(unsigned long chan_hdl)
 {
@@ -4370,7 +4368,6 @@ free_lock:
 
 	return res;
 }
-EXPORT_SYMBOL(gsi_enable_flow_control_ee);
 
 int gsi_map_virtual_ch_to_per_ep(u32 ee, u32 chan_num, u32 per_ep_index)
 {
