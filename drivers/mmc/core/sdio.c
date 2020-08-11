@@ -804,7 +804,7 @@ try_again:
 				retries = 0;
 				goto try_again;
 			}
-		return err;
+			return err;
 		}
 #ifdef CONFIG_MMC_EMBEDDED_SDIO
 	}
